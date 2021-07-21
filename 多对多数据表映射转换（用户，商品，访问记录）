@@ -1,0 +1,81 @@
+
+import javax.sound.midi.SysexMessage;
+
+class Product {
+    private long pid;
+    private String pname;
+    private double price;
+    private Member member[];
+
+    public void setMember(Member[] member) {
+        this.member = member;
+    }
+
+    public Member[] getMember() {
+        return this.member;
+    }
+
+    // setter() , getter() 无参构造略
+    public Product(long pid , String pname , double price) {
+        this.pid = pid;
+        this.pname = pname;
+        this.price = price;
+    }
+    public String getInfo() {
+        return "【商品ID】" + this.pid + "【商品名称】" + this.pname + "【商品价格】" + this.price;
+    }
+}
+
+class Member {
+    private long mid;
+    private String mname;
+    private Product product[];
+
+    public void setProduct(Product[] product) {
+        this.product = product;
+    }
+
+    public Product[] getProduct() {
+        return this.product;
+    }
+
+    // setter() , getter() 无参构造略
+    public Member(long mid , String mname) {
+        this.mid = mid;
+        this.mname = mname;
+    }
+    public String getInfo() {
+        return "【用户ID】" + this.mid + "【用户姓名】" + this.mname;
+    }
+}
+
+public class Test8 {
+    public static void main(String args []) {
+        Product productA = new Product(1l , "耳机" , 1500.00);
+        Product productB = new Product(2l , "手机" , 3500.99);
+        Product productC = new Product(3l , "游戏机" , 6788.56);
+        Member memberA = new Member(5874 , "张三");
+        Member memberB = new Member(5451 , "李四");
+        memberA.setProduct(new Product[]{productA , productB , productC});
+        memberB.setProduct(new Product[]{productB , productC});
+        productA.setMember(new Member[]{memberA});
+        productB.setMember(new Member[]{memberA , memberB});
+        productC.setMember(new Member[]{memberA});
+        System.out.println("---------------------------根据用户查看浏览商品信息---------------------------------");
+        System.out.println(productA.getInfo());
+        for (int x = 0 ; x < productA.getMember().length ; x ++) {
+            System.out.println("\t|-" + productA.getMember()[x].getInfo());
+        }
+        System.out.println(productB.getInfo());
+        for (int x = 0 ; x < productB.getMember().length ; x ++) {
+            System.out.println("\t|-" + productB.getMember()[x].getInfo());
+        }
+        System.out.println("---------------------------根据商品查看浏览用户信息---------------------------------");
+        System.out.println(memberA.getInfo());
+        for (int x = 0 ; x < memberA.getProduct().length ; x ++) {
+            System.out.println("\t|-" + memberA.getProduct()[x].getInfo());
+
+        }
+
+    }
+}
