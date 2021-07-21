@@ -1,0 +1,36 @@
+
+enum Sex { // 枚举主要是定义了实例化对象的使用范围
+    MALE("男") , FEMALE("女"); // 实例化对象设置默认值
+    private String title;
+    private Sex(String title) {
+        this.title = title;
+    }
+    @Override
+    public String toString() {
+        return this.title;
+    }
+}
+
+class Person {
+    private String name;
+    private int age;
+    private Sex sex;
+    public Person(String name , int age , Sex sex) { // 三参构造
+        this.name = name;
+        this.age = age;
+        this.sex = sex;
+    }
+    public Person() {} // 无参构造
+    @Override
+    public String toString() {
+        return "【姓名】" + this.name + "【年龄】" + this.age + "【性别】" + this.sex;
+    }
+}
+
+public class Demo10_4_4_application_enum {
+    public static void main(String args []) {
+        Person person = new Person("张三" , 21 , Sex.MALE); // 最后通过类名称调用对象
+        System.out.println(person.toString());
+        System.out.println(person);
+    }
+}
