@@ -1,0 +1,50 @@
+
+class StringUtil {
+    private String content; // 需要保存字符串
+    public StringUtil(String content) {
+        this.content = content;
+    }
+    public String getContent() {
+        return this.content;
+    }
+    public String getInfo() { // 默认信息返回
+        return this.getContent();
+    }
+}
+
+class StringCount extends StringUtil {
+    private int nCount;
+    private int oCount;
+    public StringCount(String content) {
+        super(content);
+        this.countChar(); // 构造方法统计
+    }
+    public void countChar() {
+        char [] data = super.getContent().toCharArray();
+        for (int x = 0 ; x < data.length ; x ++) {
+            if (data [x] == 'n' || data [x] == 'N') {
+                this.nCount ++;
+            }
+            if (data [ x] == 'o' || data [x] == 'O') {
+                this.oCount ++;
+            }
+        }
+    }
+    public int getnCount() {
+        return this.nCount;
+    }
+
+    public int getoCount() {
+        return this.oCount;
+    }
+    public String getInfo() {
+        return "【字母n的个数】" + this.nCount + "【字母o的个数】" + this.oCount;
+    }
+}
+
+public class Test12 {
+    public static void main(String args []) {
+        StringCount sc = new StringCount("Nature is our guidance.");
+        System.out.println(sc.getInfo());
+    }
+}
