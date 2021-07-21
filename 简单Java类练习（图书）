@@ -1,0 +1,30 @@
+class Library {
+    private String bookName; //书名
+    private double prise; //书价
+    private int bookNo; //编号
+    private static int num = 0; //册数
+    public Library() {
+        this("A" , 5.00);
+    }
+    public Library(String bookName , double prise) {
+        this.bookName = bookName;
+        this.prise = prise;
+        this.bookNo = num + 1;
+        num ++;
+    }
+    public static int getNum() {
+        return num;
+    }
+    public String getInfo() {
+        return "【编号】" + this.bookNo + "【书名】" + this.bookName + "【书价】" + this.prise;
+    }
+}
+public class Test6 {
+    public static void main(String args []) {
+        Library libraryA = new Library("第一本书" , 20.98);
+        Library libraryB = new Library("第二本书" , 30.45);
+        System.out.println(libraryA.getInfo());
+        System.out.println(libraryB.getInfo());
+        System.out.println("总册数" + Library.getNum());
+    }
+}
