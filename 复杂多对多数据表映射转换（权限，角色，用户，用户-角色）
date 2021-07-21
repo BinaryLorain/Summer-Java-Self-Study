@@ -1,0 +1,143 @@
+
+class Privilege {
+    private long pid;
+    private String pname;
+    private Role role;
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public Role getRole() {
+        return this.role;
+    }
+
+    // setter() getter() 无参构造略
+    public Privilege(long pid , String pname) {
+        this.pid = pid;
+        this.pname = pname;
+    }
+    public String getInfo() {
+        return "【权限ID】" + this.pid + "【名称】" + this.pname;
+    }
+}
+
+class Role {
+    private long rid;
+    private String rname;
+    private Privilege[] privileges;
+    private Customer[] customers;
+
+    public void setCustomers(Customer[] customers) {
+        this.customers = customers;
+    }
+
+    public Customer[] getCustomers() {
+        return this.customers;
+    }
+
+    public void setPrivilege(Privilege[] privileges) {
+        this.privileges = privileges;
+    }
+
+    public Privilege[] getPrivileges() {
+        return this.privileges;
+    }
+
+    // setter() getter() 无参构造略
+    public Role(long rid , String rname) {
+        this.rid = rid;
+        this.rname = rname;
+    }
+    public String getInfo() {
+        return "【角色ID】" + this.rid + "【角色名称】" + this.rname;
+    }
+}
+
+class Customer {
+    private long cid;
+    private String cname;
+    private Role[] roles;
+
+    public void setRoles(Role[] roles) {
+        this.roles = roles;
+    }
+
+    public Role[] getRoles() {
+        return this.roles;
+    }
+
+    // setter() getter() 无参构造略
+    public Customer(long cid , String cname) {
+        this.cid = cid;
+        this.cname = cname;
+    }
+    public String getInfo() {
+        return "【用户ID】" + this.cid + "【用户姓名】" + this.cname;
+    }
+}
+
+public class Test9 {
+    public static void main(String args []) {
+        Customer customerA = new Customer(111l , "张三");
+        Customer customerB = new Customer(222l , "李四");
+        Role roleA = new Role(1l , "系统配置");
+        Role roleB = new Role(2l , "备份服务");
+        Role roleC = new Role(3l , "人事管理");
+        Privilege privilegeA = new Privilege(1000l , "系统初始化");
+        Privilege privilegeB = new Privilege(1001l , "系统还原");
+        Privilege privilegeC = new Privilege(1002l , "系统环境修改");
+        Privilege privilegeD = new Privilege(2000l , "备份员工数据");
+        Privilege privilegeE = new Privilege(2001l , "备份部门数据");
+        Privilege privilegeF = new Privilege(2002l , "备份公文数据");
+        Privilege privilegeG = new Privilege(3000l , "增加员工");
+        Privilege privilegeH = new Privilege(3001l , "编辑员工");
+        Privilege privilegeI = new Privilege(3002l , "浏览员工");
+        Privilege privilegeJ = new Privilege(3003l , "员工离职");
+        // 角色与权限的对应关系
+        roleA.setPrivilege(new Privilege[]{privilegeA , privilegeB , privilegeC});
+        roleB.setPrivilege(new Privilege[]{privilegeD , privilegeE , privilegeF});
+        roleC.setPrivilege(new Privilege[]{privilegeG , privilegeH , privilegeI , privilegeJ});
+        // 权限与角色的对应关系
+        privilegeA.setRole(roleA);
+        privilegeB.setRole(roleA);
+        privilegeC.setRole(roleA);
+        privilegeD.setRole(roleB);
+        privilegeE.setRole(roleB);
+        privilegeF.setRole(roleB);
+        privilegeG.setRole(roleC);
+        privilegeH.setRole(roleC);
+        privilegeI.setRole(roleC);
+        privilegeJ.setRole(roleC);
+        // 用户与角色的对应关系
+        customerA.setRoles(new Role[]{roleA , roleB});
+        customerB.setRoles(new Role[]{roleA , roleB , roleC});
+        // 角色与用户的对应关系
+        roleA.setCustomers(new Customer[]{customerA , customerB});
+        roleB.setCustomers(new Customer[]{customerA , customerB});
+        roleC.setCustomers(new Customer[]{customerB});
+        System.out.println("------------通过用户查找信息-------------");
+        System.out.println(customerB.getInfo());
+        for (int x = 0 ; x < customerB.getRoles().length ; x ++) {
+            System.out.println("\t|-" + customerB.getRoles()[x].getInfo());
+            for (int y = 0 ; y < customerB.getRoles()[x].getPrivileges().length ; y ++) {
+                System.out.println("\t\t|-" + customerB.getRoles()[x].getPrivileges()[y].getInfo());
+            }
+        }
+        System.out.println("------------通过角色查找信息-------------");
+        System.out.println(roleB.getInfo());
+        System.out.println("\t|-浏览此角色的所有权限信息");
+        for (int x = 0 ; x < roleB.getPrivileges().length ; x ++) {
+            System.out.println("\t\t|-" + roleB.getPrivileges()[x].getInfo());
+        }
+        System.out.println("\t|-浏览此角色的所有用户信息");
+        for (int x = 0 ; x < roleB.getCustomers().length ; x ++) {
+            System.out.println("\t\t|-" + roleB.getCustomers()[x].getInfo());
+        }
+        System.out.println("------------通过权限查找信息-------------");
+        System.out.println(privilegeA.getInfo());
+        for (int x = 0 ; x < privilegeA.getRole().getCustomers().length ; x ++) {
+            System.out.println("\t|-" + privilegeA.getRole().getCustomers()[x].getInfo());
+        }
+    }
+}
