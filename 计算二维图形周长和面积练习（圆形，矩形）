@@ -1,0 +1,58 @@
+
+abstract class AbstractShape {
+    public abstract double area();
+    public abstract double perimeter();
+}
+
+class Circular16 extends AbstractShape { // 计算圆形面积周长的操作类
+    private double radius;
+    public Circular16(double radius) {
+        this.radius = radius;
+    }
+    @Override
+    public double area() {
+        return 3.1415926 * this.radius * this.radius;
+    }
+    @Override
+    public double perimeter() {
+        return 2 * 3.1415926 * this.radius;
+    }
+}
+
+class Rectangle extends AbstractShape { // 计算矩形面积周长的操作类
+    private double length;
+    private double width;
+    public Rectangle(double length , double width) {
+        this.length = length;
+        this.width = width;
+    }
+    @Override
+    public double area() {
+        return this.length * this.width;
+    }
+    @Override
+    public double perimeter() {
+        return 2 * (this.width + this.length);
+    }
+}
+
+class Factory16 { // 工厂类
+    public static AbstractShape getInstance(String className , double ... args) { // 返回值类型为图形抽象类
+        if ("Circular16".equalsIgnoreCase(className)) {
+            return new Circular16(args[0]);
+        } else if ("Rectangle".equalsIgnoreCase(className)) {
+            return new Rectangle(args[0] , args[1]);
+        } else {
+            return null;
+        }
+    }
+}
+
+public class Test16 {
+    public static void main(String args []) {
+        AbstractShape abstractShapeA = Factory16.getInstance("Circular16" , 1.1);
+        AbstractShape abstractShapeB = Factory16.getInstance("Rectangle" , 1.5 , 10.2);
+        System.out.println("【圆形面积】" + abstractShapeA.area() + "【圆形周长】" + abstractShapeA.perimeter());
+        System.out.println("【矩形面积】" + abstractShapeB.area() + "【矩形周长】" + abstractShapeB.perimeter());
+    }
+}
