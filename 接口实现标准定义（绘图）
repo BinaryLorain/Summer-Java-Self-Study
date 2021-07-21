@@ -1,0 +1,91 @@
+
+interface IGraphical { // 定义绘图标准
+    public abstract void paint(); // 绘图
+}
+
+class Point {
+    private double x;
+    private double y;
+    public Point(double x , double y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+
+    public double getX() {
+        return this.x;
+    }
+
+    public double getY() {
+        return this.y;
+    }
+}
+
+class Triangle implements IGraphical { // 绘制三角形
+    private Point [] x; // 保存第一条边的坐标
+    private Point [] y; // 保存第二条边的坐标
+    private Point [] z; // 保存第三条边的坐标
+    public Triangle(Point [] x , Point [] y , Point [] z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+    @Override
+    public void paint() {
+        System.out.println("绘制第一条边，开始坐标：[" + this.x[0].getX() + "," + this.x[0].getY() + "]，" +
+                "结束坐标：[" + this.x[1].getX() + "," + this.x[1].getY() + "]");
+        System.out.println("绘制第二条边，开始坐标：[" + this.y[0].getX() + "," + this.y[0].getY() + "]，" +
+                "结束坐标：[" + this.y[1].getX() + "," + this.y[1].getY() + "]");
+        System.out.println("绘制第三条边，开始坐标：[" + this.z[0].getX() + "," + this.z[0].getY() + "]，" +
+                "结束坐标：[" + this.z[1].getX() + "," + this.z[1].getY() + "]");
+    }
+}
+
+class Circular implements IGraphical {
+    private double radius;
+    public Circular(double radius) {
+        this.radius = radius;
+    }
+    @Override
+    public void paint() {
+        System.out.println("以半径为【" + this.radius + "】绘制圆形");
+    }
+}
+
+class Factory {
+    public static IGraphical getInstance(String className , double ... args) {
+        if ("Triangle".equalsIgnoreCase(className)) {
+            return new Triangle(
+                    new Point[] {
+                        new Point(args[0] , args[1]) , new Point(args[2] , args[3])} ,
+                    new Point[] {
+                        new Point(args[4] , args[5]) , new Point(args[6] , args[7])} ,
+                    new Point[] {
+                        new Point(args[8] , args[9]) , new Point(args[10] , args[11])}
+            );
+        } else if ("Circular".equalsIgnoreCase(className)) {
+            return new Circular(args[0]);
+        } else {
+            return null;
+        }
+    }
+}
+
+public class Test15 {
+    public static void main(String args []) {
+        IGraphical iGraphicalA = Factory.getInstance("Triangle" ,
+                1.1 , 2.2 , 3.3 , 4.4 , 5.5 , 6.6 ,
+                11.11 , 22.22 , 33.33 , 44.44 ,
+            111.111 , 222.222 , 333.333 , 444.444);
+        iGraphicalA.paint();
+        IGraphical iGraphical1B = Factory.getInstance("Circular" , 88.11);
+        iGraphical1B.paint();
+    }
+}
