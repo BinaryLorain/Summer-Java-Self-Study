@@ -1,0 +1,52 @@
+
+class Person {
+    private String name; // 【姓名】
+    private String addr; // 【地址】
+    private char sex; // 【性别】
+    private int age; // 【年龄】
+    // 【四参构造】
+    public Person(String name , String addr , char sex , int age) {
+        this.name = name;
+        this.addr = addr;
+        this.sex = sex;
+        this.age = age;
+    }
+    // 【双参构造】
+    public Person(String name , String addr) {
+        this(name , addr , '男' , 0);
+    }
+    // 【无参构造】
+    public Person() {}
+    // 【输出方法】
+    public String getInfo() {
+        return "【姓名】" + this.name + "【地址】" + this.addr + "【性别】" + this.sex + "【年龄】" + this.age;
+    }
+}
+
+class Student extends Person {
+    private double math;
+    private double english;
+    // 【六参构造】
+    public Student(String name , String addr , char sex , int age , double math , double english) {
+        super(name, addr, sex, age); // 调用构造方法
+        this.math = math;
+        this.english = english;
+    }
+    // 【两参构造】
+    public Student(String name , String addr) {
+        super(name, addr);
+    }
+    // 【无参构造】
+    public Student() {}
+    // 【输出方法】
+    public String getInfo() {
+        return super.getInfo() + "【数学】" + this.math + "【英语】" + this.english;
+    }
+}
+
+public class Test10 {
+    public static void main(String args []) {
+        Student stu = new Student("张三" , "北京" , '女' , 18 , 98.8 , 100.0);
+        System.out.println(stu.getInfo()); // 如果使用toString()输出信息的话直接输出对象即可
+    }
+}
