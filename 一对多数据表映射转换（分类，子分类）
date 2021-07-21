@@ -1,0 +1,64 @@
+
+class Item {
+    private long iid;
+    private String iname;
+    private SubItem subItem [];
+
+    public void setSubItem(SubItem[] subItem) {
+        this.subItem = subItem;
+    }
+
+    public SubItem[] getSubItem() {
+        return this.subItem;
+    }
+
+    // setter() , getter() , 无参构造略
+    public Item(long iid , String iname) {
+        this.iid = iid;
+        this.iname = iname;
+    }
+    public String getInfo() {
+        return "【分类ID】" + this.iid + "【分类名称】" + this.iname;
+    }
+}
+
+class SubItem {
+    private long sid;
+    private String sname;
+    private Item item;
+
+    public void setItem(Item item) {
+        this.item = item;
+    }
+
+    public Item getItem() {
+        return this.item;
+    }
+
+    // setter() , getter() , 无参构造略
+    public SubItem(long sid , String sname) {
+        this.sid = sid;
+        this.sname = sname;
+    }
+    public String getInfo() {
+        return "【子分类ID】" + this.sid + "【子分类名称】" + this.sname;
+    }
+}
+
+public class Test7 {
+    public static void main(String args []) {
+        Item item = new Item(1234l , "社长");
+        SubItem subItemA = new SubItem(7854l , "项目部");
+        SubItem subItemB = new SubItem(5248l , "市场部");
+        subItemA.setItem(item);
+        subItemB.setItem(item);
+        item.setSubItem(new SubItem[] {subItemA , subItemB});
+        System.out.println(item.getInfo());
+        for (int x = 0 ; x < item.getSubItem().length ; x ++) {
+            System.out.println("\t|-" + item.getSubItem()[x].getInfo());
+        }
+        System.out.println("********************************************************************************");
+        System.out.println(subItemA.getItem().getInfo());
+        System.out.println(subItemB.getItem().getInfo());
+    }
+}
