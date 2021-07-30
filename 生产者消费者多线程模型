@@ -1,0 +1,81 @@
+
+class Computer {
+    private static int count = 0;
+    private String name;
+    private double price;
+    public Computer(String name , double price) {
+        this.name = name;
+        this.price = price;
+        count++;
+    }
+    public String toString() {
+        return "【第" + count + "台电脑】" + " 电脑名字；" + this.name + " 电脑价格；" + this.price;
+    }
+}
+
+class Producer implements Runnable {
+    private Resource19 resource;
+    public Producer(Resource19 resource) {
+        this.resource = resource;
+    }
+
+    @Override
+    public void run() {
+        for (int x = 0 ; x < 50 ; x++) {
+            try {
+                this.resource.make();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+
+class Consumer implements Runnable {
+    private Resource19 resource;
+    public Consumer(Resource19 resource) {
+        this.resource = resource;
+    }
+
+    @Override
+    public void run() {
+        for (int x = 0 ; x < 50 ; x++) {
+            try {
+                this.resource.get();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+
+
+class Resource19 {
+    private Computer computer;
+    public synchronized void make() throws Exception {
+        if (this.computer != null) { // 已经生产过了
+            super.wait();
+        }
+        Thread.sleep(100);
+        this.computer = new Computer("IBM" , 1.1);
+        System.out.println("【生产电脑】" + this.computer);
+        super.notifyAll();
+    }
+    public synchronized void get() throws Exception {
+        if (this.computer == null) { // 没有生产过
+            super.wait();
+        }
+        Thread.sleep(10);
+        System.out.println("【取走电脑】" + this.computer);
+        this.computer = null;
+        super.notifyAll();
+    }
+}
+
+public class Test19 {
+    public static void main(String[] args) {
+        Resource19 resource19 = new Resource19();
+        new Thread(new Producer(resource19)).start();
+        new Thread(new Consumer(resource19)).start();
+    }
+}
